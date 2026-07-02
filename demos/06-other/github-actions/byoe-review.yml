@@ -1,0 +1,107 @@
+# BYOE AI Code Review — GitHub Actions 自动触发工作流
+#
+# 功能：每次 PR 提交时自动运行 BYOE AI 代码审查，将报告上传为 Artifact。
+# 可选：通过 GitHub Script 将报告摘要直接评论到 PR。
+#
+# 配置步骤：
+#   1. 将此文件保存到项目根目录的 .github/workflows/ 目录下
+#   2. 在 GitHub 仓库 Settings → Secrets and variables → Actions 中添加：
+#      - OPENAI_API_KEY：你的 OpenAI / DeepSeek 等 API Key
+#   3. 根据需要调整 BYOE_MODEL 和 OPENAI_BASE_URL 环境变量
+#   4. 将 loop-demo/ 目录复制到你的项目中，或用 pip install byoe 替代
+
+name: BYOE AI Code Review
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+      - "release/**"
+  # 允许手动触发（用于在现有分支上执行按需审查）
+  workflow_dispatch:
+    inputs:
+      task:
+        description: "自定义审查任务（留空使用默认）"
+        required: false
+        default: ""
+
+jobs:
+  ai-review:
+    name: AI 代码审查
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write  # 用于将报告评论到 PR（可选功能）
+
+    steps:
+      - name: Checkout 代码
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # 获取完整历史，以便 BYOE 分析 git diff
+
+      - name: 配置 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: 安装 BYOE
+        run: pip install "byoe>=0.8.0"
+
+      - name: 运行 BYOE AI 代码审查
+        id: byoe_review
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          # 可替换为 DeepSeek、通义千问等兼容 OpenAI 协议的模型
+          BYOE_MODEL: gpt-4o
+          # BYOE_MODEL: deepseek-chat
+          # OPENAI_BASE_URL: https://api.deepseek.com
+          BYOE_LOG: "1"
+        run: |
+          # 支持手动触发时自定义任务
+          TASK="${{ github.event.inputs.task }}"
+          if [ -z "$TASK" ]; then
+            TASK="审查本次 PR 的代码变更。\
+          请重点关注：\
+          1. 安全漏洞（SQL 注入、XSS、硬编码密钥、不安全反序列化）\
+          2. 逻辑错误和边界条件处理\
+          3. 代码规范和可维护性问题\
+          输出结构化的审查报告，包含：问题等级（Critical/High/Medium/Low）、位置、描述和修复建议。"
+          fi
+
+          python loop-demo/cicd_bot.py \
+            --task "$TASK" \
+            --cwd . \
+            --output-file pr-review.md
+
+      - name: 上传审查报告（Artifact）
+        uses: actions/upload-artifact@v4
+        if: always()  # 即使审查失败也上传报告
+        with:
+          name: byoe-ai-review-${{ github.event.pull_request.number || github.run_number }}
+          path: pr-review.md
+          retention-days: 30
+
+      # 可选：将报告摘要评论到 PR（需要 pull-requests: write 权限）
+      - name: 将报告评论到 PR
+        if: github.event_name == 'pull_request' && success()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            if (!fs.existsSync('pr-review.md')) return;
+
+            const report = fs.readFileSync('pr-review.md', 'utf8');
+            // 限制评论长度，避免超过 GitHub 65535 字符限制
+            const maxLen = 60000;
+            const body = report.length > maxLen
+              ? report.slice(0, maxLen) + '\n\n...(报告已截断，完整内容见 Artifacts)'
+              : report;
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `## 🤖 BYOE AI Code Review\n\n${body}`,
+            });

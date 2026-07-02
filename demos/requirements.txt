@@ -1,0 +1,7 @@
+# BYOE demos 运行依赖
+byoe>=1.0.0
+
+# 特定 demo 的额外依赖
+jinja2              # TemplateTool 需要
+# pydantic>=2.0     # 结构化输出（byoe[structured]）
+# pytest            # 测试相关 demo
