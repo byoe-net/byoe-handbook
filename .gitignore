@@ -24,3 +24,9 @@ Thumbs.db
 # BYOE
 crew/
 !crew/specs/
+
+# WeChat article drafts (keep only index)
+articles/*/draft.md
+
+# Raw conversation logs
+conversation-*.md
