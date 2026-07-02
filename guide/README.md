@@ -1,51 +1,96 @@
-# BYOE 入门到精通 · 系列文章
+# BYOE 入门到精通 · 公众号系列文章
 
-> 本系列将 BYOE 的核心能力拆解为独立文章，适合按顺序阅读，每篇 5-10 分钟。
-> 同步发布至微信公众号「卜一智航」，也可在 GitHub 在线阅读完整版。
+> 14 篇精炼系列，覆盖 BYOE 从入门到生产落地。
+> 每篇 2000-4000 字，周更 2 篇，同步发布至微信公众号「卜一智航」。
 
 ---
 
 ## 文章列表
 
-| # | 文章标题 | 对应文档 | 示例代码 | 状态 |
-|---|---------|---------|---------|------|
-| 1 | 什么是 BYOE — AI 编程助手还是数字员工？ | [快速入门](../docs/01-快速入门/) | — | 📝 草稿 |
-| 2 | 5 分钟安装与配置 | [配置参考](../docs/04-配置与运维/configuration.md) | — | 📝 草稿 |
-| 3 | 30 分钟快速上手：第一个 AI 项目 | [快速上手](../docs/01-快速入门/STARTER-GUIDE-ZH.md) | [01-quickstart.py](../demos/01-api/01_quickstart.py) | 📝 草稿 |
-| 4 | CLI 命令行模式：终端党的首选 | [用户手册 §21](../docs/02-用户指南/USER-MANUAL-ZH.md) | — | 📝 草稿 |
-| 5 | Web 界面全览：可视化 AI 工作台 | [用户手册 §3](../docs/02-用户指南/USER-MANUAL-ZH.md) | — | 📝 草稿 |
-| 6 | Crew 工作区：让 AI 团队协作 | [用户手册 §7](../docs/02-用户指南/USER-MANUAL-ZH.md) | — | 📝 草稿 |
-| 7 | 技能系统：给 AI 注入专属经验 | [技能指南](../docs/02-用户指南/SKILLS-GUIDE-ZH.md) | [skills/](../demos/02-skills/) | 📝 草稿 |
-| 8 | Swarm 群智协作：多 Agent 并行工作 | [Swarm 指南](../docs/02-用户指南/SWARM-GUIDE-ZH.md) | [01-api/06_swarm.py](../demos/01-api/06_swarm.py) | 📝 草稿 |
-| 9 | Sub-agent 子智能体：任务委派的艺术 | [Sub-agent 指南](../docs/02-用户指南/SUBAGENT-GUIDE-ZH.md) | — | 📝 草稿 |
-| 10 | 定时任务：让 AI 7×24 自动值守 | [用户手册 §11](../docs/02-用户指南/USER-MANUAL-ZH.md) | [05-loops/](../demos/05-loops/) | 📝 草稿 |
-| 11 | Python API 编程：把 AI 嵌入你的应用 | [API 快速入门](../docs/03-开发指南/API-QUICKSTART-ZH.md) | [01-api/](../demos/01-api/) | 📝 草稿 |
-| 12 | 自定义工具：扩展 AI 的能力边界 | [API 参考 §Tool](../docs/03-开发指南/API-REFERENCE-ZH.md) | [03-tools/](../demos/03-tools/) | 📝 草稿 |
-| 13 | MCP 生态集成：连接一切工具 | [VS Code MCP 指南](../docs/03-开发指南/VSCODE-MCP-GUIDE-ZH.md) | [01-api/10_mcp.py](../demos/01-api/10_mcp.py) | 📝 草稿 |
-| 14 | 多模态图片输入：AI 也能"看懂"图片 | [API 参考 §多模态](../docs/03-开发指南/API-REFERENCE-ZH.md) | [01-api/11_multimodal.py](../demos/01-api/11_multimodal.py) | 📝 草稿 |
-| 15 | 记忆管理：让 AI 记住每件事 | [用户手册 §15](../docs/02-用户指南/USER-MANUAL-ZH.md) | [01-api/05_memory.py](../demos/01-api/05_memory.py) | 📝 草稿 |
-| 16 | 事件钩子系统：可观测的 AI | [API 参考 §Hooks](../docs/03-开发指南/API-REFERENCE-ZH.md) | [01-api/09_hooks.py](../demos/01-api/09_hooks.py) | 📝 草稿 |
-| 17 | Loop 循环工程：无人值守的 AI 运维 | [教程](../tutorials/LOOP-ENGINEERING-TUTORIAL.md) | [05-loops/](../demos/05-loops/) | 📝 草稿 |
-| 18 | SOBER 代码审查：AI 写的代码谁把关？ | [SOBER 指南](../docs/02-用户指南/SOBER-GUIDE-ZH.md) | — | 📝 草稿 |
-| 19 | 非研发场景落地：HR、财务、营销也能用 | [非研发手册](../docs/04-配置与运维/PLAYBOOK-NONDEV-ZH.md) | [06-other/](../demos/06-other/) | 📝 草稿 |
-| 20 | VS Code + MCP：在编辑器中调用 AI | [VS Code MCP 指南](../docs/03-开发指南/VSCODE-MCP-GUIDE-ZH.md) | — | 📝 草稿 |
-| 21 | 常见问题与排查 | [故障排查](../docs/04-配置与运维/TROUBLESHOOTING-ZH.md) | — | 📝 草稿 |
+| # | 标题 | 对应文档 | 示例代码 | 配图 | 状态 |
+|---|------|---------|---------|------|------|
+| 1 | BYOE 是什么：从 Copilot 到数字员工 | — | — | 架构图 | 📝 草稿 |
+| 2 | BYOE 架构：Agent + LLM + Tools + Skills | 新增 | — | ★ 四层架构图 | 📝 草稿 |
+| 3 | 5 分钟装好你的 AI 工程师 | [configuration.md](../docs/04-config/configuration.md) | [01_quickstart.py](../demos/01-api/01_quickstart.py) | 终端截图 | 📝 草稿 |
+| 4 | CLI 聊天入门：一句话让 AI 改代码 | [USER-MANUAL §21](../docs/02-user-guide/USER-MANUAL-ZH.md) | — | CLI 动图 | 📝 草稿 |
+| 5 | Web 界面：可视化 AI 工作台 | [USER-MANUAL §3](../docs/02-user-guide/USER-MANUAL-ZH.md) | — | Web 截图 | 📝 草稿 |
+| 6 | Crew 工作流：Plan → Run → Release | [PDEVI 指南](../docs/03-developer-guide/PDEVI-GUIDE-ZH.md) | — | 流程图 | 📝 草稿 |
+| 7 | 技能系统：给 AI 注入领域经验 | [SKILLS-GUIDE](../docs/02-user-guide/SKILLS-GUIDE-ZH.md) + [教程](../tutorials/SKILLS-TUTORIAL.md) | [02-skills/](../demos/02-skills/) | JSON/Python 截图 | 📝 草稿 |
+| 8 | Python API 编程：把 AI 嵌入你的应用 | [API-QUICKSTART](../docs/03-developer-guide/API-QUICKSTART-ZH.md) | [01-api/](../demos/01-api/) | 代码块 | 📝 草稿 |
+| 9 | 自定义工具：扩展 AI 的能力边界 | [API-REFERENCE §Tool](../docs/03-developer-guide/API-REFERENCE-ZH.md) | [03-tools/](../demos/03-tools/) | 类图 | 📝 草稿 |
+| 10 | Swarm + Sub-agent：多 AI 协作 | [Swarm](../docs/02-user-guide/SWARM-GUIDE-ZH.md) + [Sub-agent](../docs/02-user-guide/SUBAGENT-GUIDE-ZH.md) | [06_swarm.py](../demos/01-api/06_swarm.py) | 流程图 | 📝 草稿 |
+| 11 | MCP + VS Code：在编辑器里召唤 AI | [VSCODE-MCP 指南](../docs/03-developer-guide/VSCODE-MCP-GUIDE-ZH.md) | [10_mcp.py](../demos/01-api/10_mcp.py) | VS Code 截图 | 📝 草稿 |
+| 12 | 循环工程：无人值守的 AI 运维 | [Loop 教程](../tutorials/LOOP-ENGINEERING-TUTORIAL.md) | [05-loops/](../demos/05-loops/) | 架构图 | 📝 草稿 |
+| 13 | 记忆 + 钩子 + 多模态：进阶能力 | [API-REFERENCE](../docs/03-developer-guide/API-REFERENCE-ZH.md) | [05_memory.py](../demos/01-api/05_memory.py), [09_hooks.py](../demos/01-api/09_hooks.py) | 示意图 | 📝 草稿 |
+| 14 | 从 Demo 到生产：最佳实践与 FAQ | [TROUBLESHOOTING](../docs/04-config/TROUBLESHOOTING-ZH.md) + [PLAYBOOK](../docs/04-config/PLAYBOOK-NONDEV-ZH.md) | — | 清单图 | 📝 草稿 |
 
 ---
 
-## 写作约定
+## 写作模板
 
-每篇文章建议包含：
+每篇文章正文格式：
 
-1. **场景引入** — 用实际问题引出本节内容
-2. **核心概念** — 1-2 句话说清楚是什么
-3. **操作步骤** — 可复现的 CLI/代码示例
-4. **执行结果** — 截图或文字输出
-5. **要点总结** — 3-5 条 takeaways
-6. **下期预告** — 引流到下一篇
+```markdown
+# 标题
+
+> 一句话摘要
+
+---
+
+## 1. 场景引入
+
+> 用一个真实痛点开头
+
+## 2. 是什么
+
+> 核心概念，1-2 段
+
+## 3. 怎么做
+
+> 操作步骤 + 代码/CLI 示例
+
+## 4. 效果
+
+> 执行结果截图 + 说明
+
+## 5. 要点总结
+
+- 要点 1
+- 要点 2
+- 要点 3
+
+## 下期预告
+
+> 引流到下一篇
+
+---
+
+📎 相关代码：[demos/...](...)
+📖 完整文档：[docs/...](...)
+```
+
+## 配图清单
+
+| 文章 | 需要配图 | 说明 |
+|------|---------|------|
+| 1 | BYOE 产品截图、与 Cursor/Devin 对比表 | 首篇要有视觉冲击 |
+| 2 | ★ **四层架构图**（最重要） | Agent ↔ LLM ↔ Tools ↔ Skills |
+| 3 | 终端安装过程截图 | 简单但必要 |
+| 4 | CLI 聊天录屏 GIF | 动态效果最好 |
+| 5 | Web UI 全屏截图 + 各个面板 | 多张 |
+| 6 | Plan → Run → Release 流程图 | 工作流可视化 |
+| 7 | Skills 目录截图 + JSON 示例 | 直观展示文件结构 |
+| 8 | Python 代码块 | 纯代码 |
+| 9 | Tool 类继承图 | 类关系 |
+| 10 | Swarm 串行/并行流程图 | 关键配图 |
+| 11 | VS Code MCP 配置截图 | 实操必配 |
+| 12 | Loop 架构图 | 时间/事件/CI 三种模式 |
+| 13 | 记忆层次图 | 三层存储 |
+| 14 | 最佳实践清单 | 信息图 |
 
 ## 发布计划
 
-- 每周 2-3 篇，从第 1 篇开始依次发布
-- 每篇文章控制在 2000-3000 字
-- 代码示例以 GitHub 链接形式嵌入
+- 每周 2 篇，预计 7 周完成
+- 首篇配图最多，需要提前准备架构图 + 截图
+- 每篇在 `articles/N-title/` 目录下完成草稿，配图放 `images/`
+- 定稿后同步发布到微信公众号 + GitHub
